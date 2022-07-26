@@ -12,6 +12,7 @@ class StudySearch:
             self.query = ""
         self.results_num = ""
     
+    
     def search_to_df(self) -> pd.DataFrame:
         """
         Takes self.query attribute from initialization and performs
@@ -111,6 +112,8 @@ class StudySearch:
                             "Abstract": abstract_text, "Citation": citation, 
                             "URL": study_URL, })  
         return studies
+    
+    
     def study_exporter(self, final_results):
         """
         Function which takes the DataFrame supplied earlier and prints out a preview
