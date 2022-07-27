@@ -122,11 +122,8 @@ class StudySearch:
             export_choice = input("Export to .csv? (y/n): ")
             if export_choice.lower() == 'y':
                 file_name = self.query.replace("+", "_") + f"_{self.results_num}"
-                try:
-                    final_results.to_csv(f"{file_name}.csv")
-                    print("Done!")
-                except PermissionError:
-                    print("File already exists!")
+                final_results.to_csv(f"{file_name}.csv")
+                print("Done!")
                 break
             elif export_choice.lower() == 'n':
                 break
