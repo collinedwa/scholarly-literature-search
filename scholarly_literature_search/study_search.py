@@ -56,7 +56,8 @@ class StudySearch:
         if int(self.results_num) <= 200:
             page_count = 0
         else:
-            page_count = (int(self.results_num)//200 + 1)
+            page_count = (int(self.results_num)//200)
+            page_count += 1 if (int(self.results_num)%200)>0 else 0
         if page_count > 1:
             print(f"\nParsing through {page_count} pages of data...")
             studies_list = []
