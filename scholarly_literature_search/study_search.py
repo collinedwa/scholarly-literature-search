@@ -97,7 +97,7 @@ class StudySearch:
             study_authors = study_data.find("div", class_="docsum-citation full-citation").find("span", class_="docsum-authors full-authors").text.strip()
             study_URL = f"https://pubmed.ncbi.nlm.nih.gov{study_id['href']}"
             study_page = BeautifulSoup(requests.get(study_URL).content, "html.parser")
-            study_abstract = study_page.find("div", class_="abstract-content selected").find_all("p")
+            study_abstract = study_page.find("div", class_="abstract").find_all("p")
             abstract_text = ''
 
             """
@@ -108,7 +108,7 @@ class StudySearch:
             study_citation = study_data.find("div", class_="docsum-citation full-citation").find("span", class_="docsum-journal-citation full-journal-citation").text.strip()
             studies.append({"Title": study_title, "Authors": study_authors, 
                             "Abstract": abstract_text, "Citation": study_citation, 
-                            "URL": study_URL, })  
+                            "URL": study_URL})  
         return studies
 
 
@@ -122,8 +122,11 @@ class StudySearch:
             export_choice = input("Export to .csv? (y/n): ")
             if export_choice.lower() == 'y':
                 file_name = self.query.replace("+", "_") + f"_{self.results_num}"
-                final_results.to_csv(f"{file_name}.csv")
-                print("Done!")
+                try:
+                    final_results.to_csv(f"{file_name}.csv")
+                    print("Done!")
+                except PermissionError:
+                    print("File already exists!")
                 break
             elif export_choice.lower() == 'n':
                 break
