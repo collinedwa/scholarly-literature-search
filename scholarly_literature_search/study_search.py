@@ -94,7 +94,7 @@ class StudySearch:
         for study_data in tqdm(search_results, desc ="Compiling Data"):
             study_title = study_data.find("a", class_="docsum-title").text.strip()
             study_id = study_data.find("a", class_="docsum-title")
-            study_authors = study_data.find("div", class_="docsum-citation full-citation").find("span").text.strip()
+            study_authors = study_data.find("div", class_="docsum-citation full-citation").find("span", class_="docsum-authors full-authors").text.strip()
             study_URL = f"https://pubmed.ncbi.nlm.nih.gov{study_id['href']}"
             study_page = BeautifulSoup(requests.get(study_URL).content, "html.parser")
             study_abstract = study_page.find("div", class_="abstract-content selected").find_all("p")
@@ -105,12 +105,9 @@ class StudySearch:
             """
             for section in study_abstract:
                 abstract_text += section.text.strip() + "\n"
-
-            study_journal = study_page.find("div", class_="article-source").find("button").text.strip()
-            study_citation = study_page.find("div", class_="article-source").find("span", class_="cit").text
-            citation = f"{study_journal}; {study_citation}"
+            study_citation = study_data.find("div", class_="docsum-citation full-citation").find("span", class_="docsum-journal-citation full-journal-citation").text.strip()
             studies.append({"Title": study_title, "Authors": study_authors, 
-                            "Abstract": abstract_text, "Citation": citation, 
+                            "Abstract": abstract_text, "Citation": study_citation, 
                             "URL": study_URL, })  
         return studies
 
