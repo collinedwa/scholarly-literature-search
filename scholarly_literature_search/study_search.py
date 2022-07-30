@@ -10,9 +10,9 @@ class StudySearch:
         """
         Attributes for search keyword, results number, and automatic export of data
         Leave blank for interactive input
-        
+
         Parameters
-        
+
         query: str. Desired keyword for search
         num: int. Desired number of results to include in table
         export_input: bool. If True, asks for user input to export. otherwise automatically exports data to .csv
@@ -51,8 +51,8 @@ class StudySearch:
         """
         Loop to establish desired number of results from pulled data
         """
-        while True:
-            if self.results_num == "":
+        if self.results_num == "":
+            while True:
                 self.results_num = input(f"\n{results} results found, sorted by relevancy. Enter how many you would like to compile (1-{maxnum}): ")
                 if int(self.results_num) > int(maxnum):
                     print("Too high! Please select a number within the given range.")
@@ -62,10 +62,9 @@ class StudySearch:
                     continue
                 else:
                     break
-            elif self.results_num != "" and self.results_num > maxnum:
-                print(f"Desired results exceeds retrieved results count.\nAdjusting to results count to {maxnum}")
-                self.results_num = maxnum
-            break
+        elif self.results_num != "" and self.results_num > maxnum:
+            print(f"Desired results exceeds retrieved results count.\nAdjusting to results count to {maxnum}")
+            self.results_num = maxnum
 
         if int(self.results_num) <= 200:
             page_count = 0
