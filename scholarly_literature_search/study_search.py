@@ -142,7 +142,12 @@ class StudySearch:
                 continue
 
 
-# Driver Code
-new_study = StudySearch(query="bench press", num=100, export_input=False)
-final_results = new_study.search_to_df()
-new_study.study_exporter(final_results)
+# Driver code for automated output
+# new_study = StudySearch(query="bench press", num=100, export_input=False)
+# final_results = new_study.search_to_df()
+# new_study.study_exporter(final_results)
+
+# Driver code for interactive, user directed output
+# new_study = StudySearch()
+# final_results = new_study.search_to_df()
+# new_study.study_exporter(final_results)
