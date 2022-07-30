@@ -3,16 +3,19 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from tqdm import tqdm
 
+
 class StudySearch:
 
-    def __init__(self, query=""):
-        if query != "":
-            self.query = '+'.join(query.split(" "))
-        else:
-            self.query = ""
-        self.results_num = ""
-    
-    
+    def __init__(self, query="", num=0, export_input=True):
+        """
+        Attributes for search keyword, results number, and automatic export of data
+        Leave blank for interactive input
+        """
+
+        self.query = '+'.join(query.split(" ")) if query != "" else ""
+        self.results_num = num if num != 0 else ""
+        self.export_input = export_input
+
     def search_to_df(self) -> pd.DataFrame:
         """
         Takes self.query attribute from initialization and performs
@@ -35,7 +38,7 @@ class StudySearch:
                 self.query = ""
                 continue
             if "," in results:
-                results = results.replace(",","")
+                results = results.replace(",", "")
             maxnum = int(results)
             break
 
@@ -43,21 +46,26 @@ class StudySearch:
         Loop to establish desired number of results from pulled data
         """
         while True:
-            self.results_num = input(f"\n{results} results found, sorted by relevancy. Enter how many you would like to compile (1-{maxnum}): ")
-            if int(self.results_num) > int(maxnum):
-                print("Too high! Please select a number within the given range.")
-                continue
-            elif int(self.results_num) == 0:
-                print("Must at least select 1 result!")
-                continue
-            else:
-                break
+            if self.results_num == "":
+                self.results_num = input(f"\n{results} results found, sorted by relevancy. Enter how many you would like to compile (1-{maxnum}): ")
+                if int(self.results_num) > int(maxnum):
+                    print("Too high! Please select a number within the given range.")
+                    continue
+                elif int(self.results_num) == 0:
+                    print("Must at least select 1 result!")
+                    continue
+                else:
+                    break
+            elif self.results_num != "" and self.results_num > maxnum:
+                print(f"Desired results exceeds retrieved results count.\nAdjusting to results count to {maxnum}")
+                self.results_num = maxnum
+            break
 
         if int(self.results_num) <= 200:
             page_count = 0
         else:
             page_count = (int(self.results_num)//200)
-            page_count += 1 if (int(self.results_num)%200)>0 else 0
+            page_count += 1 if (int(self.results_num) % 200) > 0 else 0
         if page_count > 1:
             print(f"\nParsing through {page_count} pages of data...")
             studies_list = []
@@ -85,13 +93,12 @@ class StudySearch:
         print("Done!\n")
         return pd.DataFrame(data=studies_list)
 
-
     def data_parser(self, search_results) -> list:
         """
         Function to iterate through the search results and collect data
         """
         studies = []
-        for study_data in tqdm(search_results, desc ="Compiling Data"):
+        for study_data in tqdm(search_results, desc="Compiling Data"):
             study_title = study_data.find("a", class_="docsum-title").text.strip()
             study_id = study_data.find("a", class_="docsum-title")
             study_authors = study_data.find("div", class_="docsum-citation full-citation").find("span", class_="docsum-authors full-authors").text.strip()
@@ -106,11 +113,10 @@ class StudySearch:
             for section in study_abstract:
                 abstract_text += section.text.strip() + "\n"
             study_citation = study_data.find("div", class_="docsum-citation full-citation").find("span", class_="docsum-journal-citation full-journal-citation").text.strip()
-            studies.append({"Title": study_title, "Authors": study_authors, 
-                            "Abstract": abstract_text, "Citation": study_citation, 
-                            "URL": study_URL})  
+            studies.append({"Title": study_title, "Authors": study_authors,
+                            "Abstract": abstract_text, "Citation": study_citation,
+                            "URL": study_URL})
         return studies
-
 
     def study_exporter(self, final_results):
         """
@@ -118,7 +124,11 @@ class StudySearch:
         Additionally exports to a .csv if desired
         """
         print(final_results)
-        while True:
+        if self.export_input is False:
+            file_name = self.query.replace("+", "_") + f"_{self.results_num}"
+            final_results.to_csv(f"{file_name}.csv")
+            print("Done!")
+        while self.export_input:
             export_choice = input("Export to .csv? (y/n): ")
             if export_choice.lower() == 'y':
                 file_name = self.query.replace("+", "_") + f"_{self.results_num}"
@@ -131,7 +141,8 @@ class StudySearch:
                 print("Invalid response!\n")
                 continue
 
-#Driver Code
-new_study = StudySearch()
+
+# Driver Code
+new_study = StudySearch(query="bench press", num=100, export_input=False)
 final_results = new_study.search_to_df()
 new_study.study_exporter(final_results)
