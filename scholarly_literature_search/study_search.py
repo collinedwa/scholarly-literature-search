@@ -53,28 +53,33 @@ class StudySearch:
         """
         if self.results_num == "":
             while True:
-                self.results_num = input(f"\n{results} results found, sorted by relevancy. Enter how many you would like to compile (1-{maxnum}): ")
-                if int(self.results_num) > int(maxnum):
+                try:
+                    self.results_num = int(input(f"\n{results} results found, sorted by relevancy. Enter how many you would like to compile (1-{maxnum}): "))
+                except ValueError:
+                    print("Input must be a valid number!")
+                    continue
+                if self.results_num > maxnum:
                     print("Too high! Please select a number within the given range.")
                     continue
-                elif int(self.results_num) == 0:
+                elif self.results_num <= 0:
                     print("Must at least select 1 result!")
                     continue
                 else:
                     break
+
         elif self.results_num != "" and self.results_num > maxnum:
             print(f"Desired results exceeds retrieved results count.\nAdjusting to results count to {maxnum}")
             self.results_num = maxnum
 
-        if int(self.results_num) <= 200:
+        if self.results_num <= 200:
             page_count = 0
         else:
-            page_count = (int(self.results_num)//200)
-            page_count += 1 if (int(self.results_num) % 200) > 0 else 0
+            page_count = (self.results_num//200)
+            page_count += 1 if (self.results_num % 200) > 0 else 0
         if page_count > 1:
             print(f"\nParsing through {page_count} pages of data...")
             studies_list = []
-            remaining_count = int(self.results_num)
+            remaining_count = self.results_num
 
             """
             For loop to iterate through each page of data
@@ -93,7 +98,7 @@ class StudySearch:
                 remaining_count -= 200
                 print(f"Page {i} of {page_count} complete.\n")
         else:
-            search_results = page_data.find_all("article", class_="full-docsum", limit=int(self.results_num))
+            search_results = page_data.find_all("article", class_="full-docsum", limit=self.results_num)
             studies_list = self.data_parser(search_results)
         print("Done!\n")
         return pd.DataFrame(data=studies_list)
