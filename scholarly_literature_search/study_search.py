@@ -10,6 +10,12 @@ class StudySearch:
         """
         Attributes for search keyword, results number, and automatic export of data
         Leave blank for interactive input
+        
+        Parameters
+        
+        query: str. Desired keyword for search
+        num: int. Desired number of results to include in table
+        export_input: bool. If True, asks for user input to export. otherwise automatically exports data to .csv
         """
 
         self.query = '+'.join(query.split(" ")) if query != "" else ""
