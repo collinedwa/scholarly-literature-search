@@ -11,25 +11,25 @@ I began this project by doing a bit of research into what tools and libraries wo
 
 When the program starts, you are greeted with an input prompt for a search term (or alternatively you can specify the keyword upon creating a new object). The program will fetch the total number of results that stem from your search or loop back to the initial input if no results are found.
 
-![startup](screenshots/sch1.png)
+![startup](scholarly_literature_search/screenshots/sch1.png)
 
 You can then choose how many results you would like to have entered into the data table, with an error message appearing if you select more than the max result value. A similar error message is shown if you happen to pick a number less than one, as well.
 
-![too many results](screenshots/sch2.png)
+![too many results](scholarly_literature_search/screenshots/sch2.png)
 
 After selecting the number of desired results (1000 in this case), the program will begin to compile everything into a table. The information collected includes the title, authors, abstract, citation, and study URL. The operation is separated into 200-item chunks while everything is being processed, as the maximum displayable results on PubMed is 200. Additionally, the loading bar on the program displays some metrics such as percentage, total time, time per action, and page position.
 
-![progress](screenshots/sch3.png)
+![progress](scholarly_literature_search/screenshots/sch3.png)
 
 Earlier on, I found a couple of bugs in my code that manifested during this stage, all of which had to do with HTML formatting. When conducting large-scale collection, the page data of certain studies ended up deviating from what I had previously established as the norm; the program would fail as it searched for an HTML section that didn’t exist on the page. I ended up rewriting that portion of the code and was able to have it run without error. 
 
-![finishing up](screenshots/sch4.png)
+![finishing up](scholarly_literature_search/screenshots/sch4.png)
 
 As the program finishes up collecting all of the data, a preview is printed out on the console alongside a prompt to export the data to a .csv file. If you decide you want to keep the data, a file is created using the query and total number of results as a naming convention (e.g. bench_press_1000.csv). A sample of the final file is shown below. All of the information is present, and can be fully accessed by highlighting the given cell.
 
-![example table](screenshots/sch5.png)
+![example table](scholarly_literature_search/screenshots/sch5.png)
 
-![example abstract preview](screenshots/sch6.png)
+![example abstract preview](scholarly_literature_search/screenshots/sch6.png)
 
 ## Conclusions:
 
