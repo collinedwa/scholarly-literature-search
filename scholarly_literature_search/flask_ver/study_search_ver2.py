@@ -39,7 +39,7 @@ class StudySearch:
             results = page_data.find("span", class_="value").text
         except:
             print("\nNo studies found matching your keywords.\n")
-            return False
+            return pd.DataFrame()
         if "," in results:
             results = results.replace(",", "")
         maxnum = int(results)
@@ -101,7 +101,6 @@ class StudySearch:
         study_URL = f"https://pubmed.ncbi.nlm.nih.gov{study_id['href']}"
         study_page = BeautifulSoup(requests.get(study_URL).content, "lxml")
         study_abstract = study_page.find("div", class_="abstract").find_all("p")
-        print(type(study_abstract))
         abstract_text = ''
 
         """

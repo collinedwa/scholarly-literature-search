@@ -15,7 +15,7 @@ def index():
         session['results_num'] = results_num
         study = s.StudySearch(keyword, results_num, False)
         results = study.search_to_df()
-        if not results:
+        if results.empty:
             return redirect('/error')
         else:
             df = results.to_html()
