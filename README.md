@@ -1,5 +1,6 @@
 # Scholarly Literature Search
 ### Code is written and executed in [study_search.py](scholarly_literature_search/study_search.py)
+### UPDATE 8/25/22: Refactored and added basic web support for the app, located in [flask_ver](scholarly_literature_search/flask_ver)
 
 ## Introduction:
 
