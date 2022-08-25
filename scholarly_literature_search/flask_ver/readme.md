@@ -6,6 +6,9 @@ Ensure all requirements are met and use a cli to enter "flask run" in the direct
 App can then be accessed locally via http://127.0.0.1:5000/
 ## Screenshots
 ![initial input](../screenshots/fl1.png)
+</br>
 ![results](../screenshots/fl2.png)
+</br>
 ![options](../screenshots/fl3.png)
+</br>
 ![download](../screenshots/fl4.png)
