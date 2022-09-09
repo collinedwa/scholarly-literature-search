@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from tqdm import tqdm
-from multiprocessing import Pool
 
 
 class StudySearch:
@@ -107,7 +106,7 @@ class StudySearch:
         For loop in the event that a given study's abstract has multiple sections
         """
         for section in study_abstract:
-            abstract_text += section.text.strip() + "\n"
+            abstract_text += section.text.strip() + ' '
         study_citation = search_result.find("div", class_="docsum-citation full-citation").find("span", class_="docsum-journal-citation full-journal-citation").text.strip()
         return {"Title": study_title, "Authors": study_authors,
                         "Abstract": abstract_text, "Citation": study_citation,
