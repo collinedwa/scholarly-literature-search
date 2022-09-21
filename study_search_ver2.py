@@ -120,7 +120,7 @@ class StudySearch:
         print(final_results)
         if self.export_input is False:
             file_name = self.query.replace("+", "_") + f"_{self.results_num}"
-            final_results.to_csv(f"static/{file_name}.csv")
+            final_results.to_csv(f"./static/{file_name}.csv")
             print("Done!")
         while self.export_input:
             export_choice = input("Export to .csv? (y/n): ")
