@@ -10,7 +10,10 @@ def index():
     session['done'] = False
     if request.method == 'POST':
         keyword = request.form.get('keyword')
-        results_num = int(request.form.get('results_num'))
+        try:
+            results_num = int(request.form.get('results_num'))
+        except:
+            return redirect('/numerror')
         session['keyword'] = keyword
         session['results_num'] = results_num
         study = s.StudySearch(keyword, results_num, False)
@@ -33,16 +36,22 @@ def index():
                <input type="submit" value="Submit">
            </form>
     '''
-@app.route('/download')
+@app.route('/download', methods = ['GET'])
 def download():
     if not session['done']:
         return redirect('/')
     filename = session['filename']
     return send_from_directory(app.static_folder, f'{filename}.csv')
 
-@app.route('/error')
+@app.route('/error', methods = ['GET'])
 def error():
     return '''<h1>No studies found!</h1>
     <p>Please alter your search terms.</p>
+    <p><a href="../"><button class=grey style="height:50px;width:100px">Back</button></a></p>
+    '''
+
+@app.route('/numerror', methods = ['GET'])
+def numerror():
+    return '''<h1>Invalid results number!</h1>
     <p><a href="../"><button class=grey style="height:50px;width:100px">Back</button></a></p>
     '''
