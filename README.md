@@ -5,6 +5,8 @@ Refactored to run a bit faster, but it seems to still be dreadfully slow at time
 ### Live site:
 https://scholarly-literature-search.azurewebsites.net/
 
+It may take some time to load initially depending on whether the app has been idle for an extended period.
+
 ### Localized instance:
 Ensure all requirements are met and use a cli to enter "flask run" in the directory (ctrl+c to end session when done)
 
