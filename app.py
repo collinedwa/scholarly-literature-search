@@ -1,6 +1,6 @@
 import study_search_ver2 as s
 import os
-from flask import Flask, request, redirect, session, send_from_directory
+from flask import Flask, request, redirect, session, send_from_directory, abort
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'super_secret_key'
@@ -36,6 +36,27 @@ def index():
                <input type="submit" value="Submit">
            </form>
     '''
+
+@app.route('/api/submit', methods = ['POST'])
+def api_submit():
+    if 'results num' not in request.json or 'keyword' not in request.json:
+        return abort(400, 'Missing arguments')
+    results_num = request.json['results num']
+    keyword = request.json['keyword']
+    try:
+        results_num = int(results_num)
+    except:
+        return abort(400, "Results number must be a valid integer")
+    if results_num <= 0:
+        return abort(400, "Results number must be greater than zero")
+    study = s.StudySearch(keyword, results_num, False)
+    results = study.search_to_df()
+    if results.empty:
+        return abort(400, "No studies found matching your keyword")
+    else:
+        df = results.to_json()
+        return df
+    
 @app.route('/download', methods = ['GET'])
 def download():
     if not session['done']:
