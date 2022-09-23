@@ -1,6 +1,6 @@
 # Scholarly Literature Search
 ### Code is written and executed in [study_search.py](scholarly_literature_search/study_search.py)
-### UPDATE 8/25/22: Refactored and added basic web support + barebones frontend for the app; can be viewed at [flask-ver](https://github.com/collinedwa/scholarly-literature-search/tree/flask-ver) or the [live site](https://scholarly-literature-search.azurewebsites.net/) (The site may take some time to load initially depending on whether or not it has been idle.)
+### UPDATE 8/25/22: Refactored and added basic web support for the app; it can be viewed at the [flask-ver fork](https://github.com/collinedwa/scholarly-literature-search/tree/flask-ver) or the [live site](https://scholarly-literature-search.azurewebsites.net/) (The site may take some time to load initially depending on whether or not it has been idle.)
 
 ## Introduction:
 
